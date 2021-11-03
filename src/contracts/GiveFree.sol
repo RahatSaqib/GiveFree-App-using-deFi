@@ -25,9 +25,17 @@ contract GiveFree{
        }
        isStaking[msg.sender] = true;
        hasStaked[msg.sender] = true;
-       
-        
 
+   }
+   function issueToken() public{
+       for(uint i = 0;i<stakers.length; i++){
+           address recipent = stakers[i];
+           uint balance = stakingBalance[recipent];
+           if(balance > 0){
+             dappToken.transfer(recipent , balance);
+           }
+
+       }
    }
 
 }
