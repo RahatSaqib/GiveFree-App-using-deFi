@@ -12,4 +12,7 @@ contract GiveFree{
        dapptoken = _daptoken;
        daiToken = _daiToken;
    }
+   function stakeTokens(uint _amount) public{
+       daiToken.transferFrom(msg.sender, address.this, _amount);
+   }
 }
