@@ -8,7 +8,7 @@ contract GiveFree{
    DappToken public dapptoken;
    DaiToken public daiToken;
 
-   constructor(DappToken _daptoken , DaiToken _daiToken){
+   constructor(DappToken _daptoken , DaiToken _daiToken) public{
        dapptoken = _daptoken;
        daiToken = _daiToken;
    }
