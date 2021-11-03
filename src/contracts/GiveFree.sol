@@ -21,7 +21,7 @@ contract GiveFree{
     }
     function stakeTokens(uint _amount) public{
         require(_amount > 0 ,"Amount cannot be");
-        daiToken.transferFrom(msg.sender, address.this, _amount);
+        daiToken.transferFrom(msg.sender, address(this), _amount);
         stakingBalance[msg.sender] = stakingBalance[msg.sender] + _amount;
         //add user to stakers array only if they haven't staked
         if(!hasStaked[msg.sender]){
@@ -44,7 +44,7 @@ contract GiveFree{
             address recipent = stakers[i];
             uint balance = stakingBalance[recipent];
             if(balance > 0){
-                dappToken.transfer(recipent , balance);
+                dapptoken.transfer(recipent , balance);
             }
 
         }
