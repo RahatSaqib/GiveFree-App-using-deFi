@@ -1,8 +1,14 @@
 import React, { Component } from 'react'
 import Navbar from './Navbar'
+import Content from './Content'
+
 import './App.css'
 import Web3 from 'web3'
 import DaiToken from '../abis/DaiToken.json'
+import DappToken from '../abis/DappToken.json'
+import GiveFree from '../abis/GiveFree.json'
+
+
 
 class App extends Component {
 
@@ -26,6 +32,31 @@ class App extends Component {
     else{
       window.alert('DaiTOken contract not deployed')
     }
+
+    //load DAPPTOKEN
+    const dappTokenData = DappToken.networks[networkId]
+    if(dappTokenData){
+      const dappToken =  new web3.eth.Contract(DappToken.abi, dappTokenData.address)
+      this.setState({dappToken});
+      let dappTokenBalance =  await dappToken.methods.balanceOf(this.state.account).call()
+      this.setState({dappTokenBalance : dappTokenBalance.toString()})
+    }
+    else{
+      window.alert('DappToken contract not deployed')
+    }
+    
+    //load givefree
+    const giveFreeData = GiveFree.networks[networkId]
+    if(giveFreeData){
+      const giveFree =  new web3.eth.Contract(GiveFree.abi, giveFreeData.address)
+      this.setState({giveFree});
+      let stakingBalance =  await giveFree.methods.balanceOf(this.state.account).call()
+      this.setState({stakingBalance : stakingBalance.toString()})
+    }
+    else{
+      window.alert('GiveFree contract not deployed')
+    }
+    this.setState({loading : false})
     
   }
   async loadWeb3(){
@@ -56,9 +87,14 @@ class App extends Component {
   }
 
   render() {
+    let loadContent;
+    if(this.state.loading){
+      loadContent = <p id ="loader" className ="text-center">Loading ...</p>
+    }
     return (
       <div>
         <Navbar account={this.state.account} />
+        <Content/>
       </div>
     );
   }
