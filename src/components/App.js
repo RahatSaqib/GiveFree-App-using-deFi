@@ -5,6 +5,15 @@ import Web3 from 'web3'
 
 class App extends Component {
 
+  async componentMount(){
+    await this.loadWeb3()
+    await this.loadBlockChainData()
+  }
+  async loadBlockChainData(){
+    const web3 = window.web3
+    const account = await web3.eth.getAccounts()
+    this.setState({account: account[0]});
+  }
   async loadWeb3(){
     if(window.ethereum){
       window.web3 = new Web3(window.ethereum)
@@ -21,7 +30,14 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      account: '0x0'
+      account: '0x0',
+      daiToken: {},
+      dappToken: {},
+      giveFree: {},
+      daiTokenBalance: '0',
+      dappTokenBalance: '0',
+      stakingBalance: '0',
+      loading: true
     }
   }
 
