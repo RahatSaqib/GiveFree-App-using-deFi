@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import Navbar from './Navbar'
 import Content from './Content'
-
-import './App.css'
 import Web3 from 'web3'
 import DaiToken from '../abis/DaiToken.json'
 import DappToken from '../abis/DappToken.json'
@@ -12,7 +10,7 @@ import GiveFree from '../abis/GiveFree.json'
 
 class App extends Component {
 
-  async componentMount(){
+  async componentWillMount(){
     await this.loadWeb3()
     await this.loadBlockChainData()
   }
@@ -50,7 +48,7 @@ class App extends Component {
     if(giveFreeData){
       const giveFree =  new web3.eth.Contract(GiveFree.abi, giveFreeData.address)
       this.setState({giveFree});
-      let stakingBalance =  await giveFree.methods.balanceOf(this.state.account).call()
+      let stakingBalance =  await giveFree.methods.stakingBalance(this.state.account).call()
       this.setState({stakingBalance : stakingBalance.toString()})
     }
     else{
@@ -71,6 +69,23 @@ class App extends Component {
       window.alert("Non-ethereum browser detected");
     }
   }
+  
+  stakeTokens = (amount) => {
+    this.setState({ loading: true })
+    this.state.daiToken.methods.approve(this.state.giveFree._address, amount).send({ from: this.state.account }).on('transactionHash', (hash) => {
+      this.state.giveFree.methods.stakeTokens(amount).send({ from: this.state.account }).on('transactionHash', (hash) => {
+        this.setState({ loading: false })
+      })
+    })
+  }
+
+  unstakeTokens = (amount) => {
+    this.setState({ loading: true })
+    this.state.giveFree.methods.unstakeTokens().send({ from: this.state.account }).on('transactionHash', (hash) => {
+      this.setState({ loading: false })
+    })
+  }
+
 
   constructor(props) {
     super(props)
@@ -91,10 +106,28 @@ class App extends Component {
     if(this.state.loading){
       loadContent = <p id ="loader" className ="text-center">Loading ...</p>
     }
+    else{
+      loadContent = <Content
+        daiTokenBalance = {this.state.daiTokenBalance}
+        dappTokenBalance = {this.state.dappTokenBalance}
+        stakingBalance = {this.state.stakingBalance}
+        stakeTokens = {this.stakeTokens}
+        unstakeTokens = {this.unstakeTokens}
+      />
+    }
     return (
       <div>
+        
         <Navbar account={this.state.account} />
-        <Content/>
+        <div className="container-fluid mt-5">
+          <div className="row">
+            <main role="main" className="col-lg-12 ml-auto mr-auto" style={{ maxWidth: '600px' }}>
+              <div className="content mr-auto ml-auto">
+                {loadContent}
+              </div>
+              </main>
+              </div>
+              </div>
       </div>
     );
   }
