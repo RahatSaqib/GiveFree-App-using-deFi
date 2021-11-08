@@ -113,21 +113,20 @@ class App extends Component {
         stakingBalance = {this.state.stakingBalance}
         stakeTokens = {this.stakeTokens}
         unstakeTokens = {this.unstakeTokens}
+        account = {this.state.account}
       />
     }
     return (
       <div>
         
         <Navbar account={this.state.account} />
-        <div className="container-fluid mt-5">
-          <div className="row">
-            <main role="main" className="col-lg-12 ml-auto mr-auto" style={{ maxWidth: '600px' }}>
+       
+  
               <div className="content mr-auto ml-auto">
                 {loadContent}
               </div>
-              </main>
-              </div>
-              </div>
+              
+              
       </div>
     );
   }

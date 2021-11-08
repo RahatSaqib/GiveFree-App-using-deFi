@@ -2,3 +2,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.accounts{
+    background: #680968;
+    color: white;
+    padding: 10px;
+    border-radius: 20px;
+}
