@@ -70,5 +70,12 @@ http://localhost:3000
 ```
 
 &nbsp;
+3. After stake you should issue your token
+```
+$ truffle scripts/issue-token.js
+
+```
+
+&nbsp;
 
 ***
