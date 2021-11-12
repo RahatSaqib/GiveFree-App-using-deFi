@@ -18,6 +18,8 @@ class App extends Component {
     const web3 = window.web3
     const account = await web3.eth.getAccounts()
     this.setState({account: account[0]});
+    let accountBalance = window.web3.utils.fromWei( await web3.eth.getBalance(account[0]))
+    this.setState({accountBalance: accountBalance});
     const networkId = await web3.eth.net.getId();
     //load daiTOken
     const daiTokenData = DaiToken.networks[networkId]
@@ -114,6 +116,8 @@ class App extends Component {
         stakeTokens = {this.stakeTokens}
         unstakeTokens = {this.unstakeTokens}
         account = {this.state.account}
+        accountBalance = {this.state.accountBalance}
+
       />
     }
     return (

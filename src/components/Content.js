@@ -11,7 +11,9 @@ class Content extends Component {
       <div className="container px-5 py-24 mx-auto flex flex-wrap items-center">
         <div className="lg:w-3/5 md:w-1/2 md:pr-16 lg:pr-0 pr-0">
           <h1 className="title-font font-medium text-3xl text-gray-900">Welcome </h1>
-          <p className="leading-relaxed mt-4 accounts">{this.props.account}</p>
+          <p className="leading-relaxed mt-4 accounts">{this.props.account.slice(0,6)}...{this.props.account.slice(-6)}</p>
+          <p className="leading-relaxed mt-4 accounts">Balance : {this.props.accountBalance}</p>
+
         </div>
         <div className="lg:w-2/6 md:w-1/2 bg-gray-100 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0">
         <table className="table table-borderless text-muted text-center">
